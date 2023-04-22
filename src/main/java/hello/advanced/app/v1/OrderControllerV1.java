@@ -10,18 +10,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class OrderControllerV1 {
 
-    private final OrderServiceV1 orderService;
+    private final OrderServiceV1 orderServiceV1;
     private final HelloTraceV1 trace;
 
     @GetMapping("/v1/request")
     public String request(String itemId){
 
         TraceStatus status = null;
-        try {
+        try{
             status = trace.begin("OrderController.request()");
-            orderService.orderItem(itemId);
+            orderServiceV1.orderItem(itemId);
             trace.end(status);
-            return "ok";
+            return "OK";
         }catch (Exception e){
             trace.exception(status, e);
             throw e;//예외를 꼭 다시 던져주어야 한다.
